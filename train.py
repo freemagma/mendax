@@ -2,6 +2,8 @@ from model import *
 from data_control import *
 from log import *
 
+brange = None
+
 
 def run_batch(device, crew, imposter):
     player_ix, crew_views, imposter_views = generate_views(B, N, P, I)
@@ -10,7 +12,8 @@ def run_batch(device, crew, imposter):
     imposter_views = torch.tensor(imposter_views).float().to(device)
 
     memory = []
-    brange = torch.arange(B).to(device)
+    if brange is None:
+        brange = torch.arange(B).to(device)
     for p in range(P):
         if p < I:
             my_view = imposter_views[:, p, :, :]
