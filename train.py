@@ -1,6 +1,6 @@
 from model import *
 from data_control import *
-from logging import *
+from log import *
 
 
 def run_batch(device, crew, imposter):
@@ -69,6 +69,7 @@ def main():
     crew_optim = torch.optim.Adam(crew.parameters())
     optimizer = [imposter_optim, crew_optim]
 
+    running_score = 0
     for e in range(EPOCHS):
         train_crew = (e + 0) % 2
         print_epoch(e, train_crew)
@@ -78,9 +79,11 @@ def main():
         for b in range(EPOCH_LENGTH):
             optimizer[train_crew].zero_grad()
             crew_score = run_batch(device, crew, imposter)
+            running_score += crew_score
             loss = crew_score * (-1 if train_crew else 1)
             if b % 64 == 63:
                 print(f"    Batch {str(b + 1).zfill(3)}; Crew Score: {crew_score:.3f}")
+                running_score = 0
             loss.backward()
             optimizer[train_crew].step()
 

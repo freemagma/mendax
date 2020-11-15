@@ -2,7 +2,7 @@ import torch
 import numpy as np
 
 
-def generate_views(B, N, P, I, view_chance=0.4, sabotage_chance=0.5):
+def generate_views(B, N, P, I, view_chance=0.4, sabotage_chance=0):
     """
     INPUTS
         B: batch size
