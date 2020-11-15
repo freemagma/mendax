@@ -5,10 +5,12 @@ from log import *
 
 def run_batch(device, crew, imposter):
     player_ix, crew_views, imposter_views = generate_views(B, N, P, I)
+    player_ix = torch.tensor(player_ix).long().to(device)
     crew_views = torch.tensor(crew_views).float().to(device)
     imposter_views = torch.tensor(imposter_views).float().to(device)
 
     memory = []
+    brange = torch.arange(B).to(device)
     for p in range(P):
         if p < I:
             my_view = imposter_views[:, p, :, :]
@@ -17,7 +19,7 @@ def run_batch(device, crew, imposter):
             my_view = crew_views[:, p - I, :, :]
             memory.append(crew.viewer(my_view)[1])
 
-    messages = torch.zeros((B, P, M))
+    messages = torch.zeros((B, P, M)).to(device)
     for p in range(P):
         h_0, _ = memory[p]
         message = None
@@ -25,16 +27,16 @@ def run_batch(device, crew, imposter):
             message = imposter.comm.get_message(h_0)
         else:
             message = crew.comm.get_message(h_0)
-        messages[np.arange(B), player_ix[:, p], :] = message
+        messages[brange, player_ix[:, p], :] = message
     for r in range(ROUNDS):
-        new_messages = torch.zeros((B, P, M))
+        new_messages = torch.zeros((B, P, M)).to(device)
         for p in range(P):
             if p < I:
                 message, memory[p] = imposter.comm(messages.view(B, P * M), memory[p])
-                new_messages[np.arange(B), player_ix[:, p], :] = message
+                new_messages[brange, player_ix[:, p], :] = message
             else:
                 message, memory[p] = crew.comm(messages.view(B, P * M), memory[p])
-                new_messages[np.arange(B), player_ix[:, p], :] = message
+                new_messages[brange, player_ix[:, p], :] = message
         messages = new_messages
 
     votes = 0
@@ -44,7 +46,7 @@ def run_batch(device, crew, imposter):
         else:
             votes += crew.vote(memory[p])
     votes /= P
-    imposter_votes = votes[np.arange(B)[:, None], player_ix[:, :I]]
+    imposter_votes = votes[brange[:, None], player_ix[:, :I]]
     return torch.mean(imposter_votes.max(1)[0])
 
 
