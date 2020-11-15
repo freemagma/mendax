@@ -13,11 +13,11 @@ def generate_views(B, N, P, I, view_chance=0.4, sabotage_chance=0.5):
         sabotage_change: the chance that an imposter sabotages in any given event
 
     OUTPUT
-        tuple of (crew_views, imposter_views) of shapes
-        (B, P - I, N, P+1) and (B, I, N, P+1) indicating the view of each
-        crew member and imposter, where each player experiences N events.
-        During each event they see some set of co-players, and sometimes
-        experience/cause a sabotage.
+        tuple of (player_ix, crew_views, imposter_views)
+        of shapes (B, P), (B, P-I, N, P+1), and (B, I), (B, I, N, P+1)
+        indicating the view of each crew member and imposter, where each
+        player experiences N events. During each event they see some set
+        of co-players, and sometimes experience/cause a sabotage.
     """
 
     assert P > I, "there must be more total players than imposters"
@@ -29,14 +29,14 @@ def generate_views(B, N, P, I, view_chance=0.4, sabotage_chance=0.5):
     groups = groups < view_chance
     groups[:, :, np.arange(P), np.arange(P)] = True
 
-    # (B, P - I) matrix representing the player indices
-    players = np.random.rand(B, P).argsort(axis=1)
-    imposters = players[:, :I]
-    crew = players[:, I:]
+    # (B, P) matrix representing the player indices
+    player_ix = np.random.rand(B, P).argsort(axis=1)
+    imposter_ix = player_ix[:, :I]
+    crew_ix = player_ix[:, I:]
 
     # (B, N, P) matrix representing who sabotages during each event
     sabotages = np.random.rand(B, N, P) < sabotage_chance
-    sabotages[np.arange(B)[:, None], :, crew] = False
+    sabotages[np.arange(B)[:, None], :, crew_ix] = False
 
     # (B, N, 1, P) matrix representing who sees a sabotage
     see_sabotage = np.any(np.logical_and(groups, sabotages[:, :, :, None]), axis=2)[
@@ -48,10 +48,10 @@ def generate_views(B, N, P, I, view_chance=0.4, sabotage_chance=0.5):
     views = np.concatenate((views, see_sabotage), axis=2)
 
     all_views = views.transpose(0, 3, 1, 2)
-    crew_views = all_views[np.arange(B)[:, None], crew, :, :]
-    imposter_views = all_views[np.arange(B)[:, None], imposters, :, :]
+    crew_views = all_views[np.arange(B)[:, None], crew_ix, :, :]
+    imposter_views = all_views[np.arange(B)[:, None], imposter_ix, :, :]
 
-    return crew_views, imposter_views
+    return player_ix, crew_views, imposter_views
 
 
 def test():
