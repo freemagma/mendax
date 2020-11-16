@@ -6,6 +6,7 @@ brange = None
 
 
 def run_batch(device, crew, imposter):
+    global brange
     player_ix, crew_views, imposter_views = generate_views(B, N, P, I)
     player_ix = torch.tensor(player_ix).long().to(device)
     crew_views = torch.tensor(crew_views).float().to(device)
