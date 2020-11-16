@@ -88,7 +88,9 @@ def main():
             running_score += crew_score
             loss = crew_score * (-1 if train_crew else 1)
             if b % 64 == 63:
-                print(f"    Batch {str(b + 1).zfill(3)}; Crew Score: {crew_score:.3f}")
+                print(
+                    f"    Batch {str(b + 1).zfill(3)}; Crew Score: {running_score / 64:.3f}"
+                )
                 running_score = 0
             loss.backward()
             optimizer[train_crew].step()
