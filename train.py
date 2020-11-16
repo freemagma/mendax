@@ -12,46 +12,49 @@ def run_batch(device, crew, imposter):
     crew_views = torch.tensor(crew_views).float().to(device)
     imposter_views = torch.tensor(imposter_views).float().to(device)
 
-    memory = []
-    if brange is None:
+    # Viewer Stage
+    memory = []  # Result from Viewer(view) of each player
+    if brange is None:  # Only create brange once
         brange = torch.arange(B).to(device)
     for p in range(P):
-        if p < I:
+        if p < I:  # If player is imposter
             my_view = imposter_views[:, p, :, :]
-            memory.append(imposter.viewer(my_view)[1])
-        else:
+            memory.append(imposter.viewer(my_view)[1])  # Imposter's view pass
+        else:  # Player is crew
             my_view = crew_views[:, p - I, :, :]
-            memory.append(crew.viewer(my_view)[1])
+            memory.append(crew.viewer(my_view)[1])  # Crew's view pass
 
-    messages = torch.zeros((B, P, M)).to(device)
-    for p in range(P):
-        h_0, _ = memory[p]
+    # Communicate Stage
+    messages = torch.zeros((B, P, M)).to(device)  # Communication data
+    for p in range(P):  # Create initial message
+        h_0, _ = memory[p]  # Grab initial memory from player
         message = None
-        if p < I:
-            message = imposter.comm.get_message(h_0)
-        else:
+        if p < I:  # If player is imposter
+            message = imposter.comm.get_message(h_0)  # Pass imposter initial h_0
+        else:  # Player is crew
             message = crew.comm.get_message(h_0)
-        messages[brange, player_ix[:, p], :] = message
-    for r in range(ROUNDS):
-        new_messages = torch.zeros((B, P, M)).to(device)
+        messages[brange, player_ix[:, p], :] = message  # Pass crew initial hidden h_0
+    for r in range(ROUNDS):  # Actual communication
+        new_messages = torch.zeros((B, P, M)).to(device)  # Next round comm data
         for p in range(P):
-            if p < I:
+            if p < I:  # If player is imposter
                 message, memory[p] = imposter.comm(messages.view(B, P * M), memory[p])
-                new_messages[brange, player_ix[:, p], :] = message
-            else:
+                new_messages[brange, player_ix[:, p], :] = message  # Imposter comm data
+            else:  # Player is crew
                 message, memory[p] = crew.comm(messages.view(B, P * M), memory[p])
-                new_messages[brange, player_ix[:, p], :] = message
+                new_messages[brange, player_ix[:, p], :] = message  # Crew comm data
         messages = new_messages
 
+    # Vote stage
     votes = 0
     for p in range(P):
-        if p < I:
-            votes += imposter.vote(memory[p])
-        else:
-            votes += crew.vote(memory[p])
-    votes /= P
-    imposter_votes = votes[brange[:, None], player_ix[:, :I]]
-    return torch.mean(imposter_votes.max(1)[0])
+        if p < I:  # If player is imposter
+            votes += imposter.vote(memory[p])  # Imposter votes
+        else:  # Player is crew
+            votes += crew.vote(memory[p])  # Player votes
+    votes /= P  # Make values to be [0, 1]
+    imposter_votes = votes[brange[:, None], player_ix[:, :I]]  # Extract imposter votes
+    return torch.mean(imposter_votes.max(1)[0])  # Mean of max votes for imposter
 
 
 B = 64
