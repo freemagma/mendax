@@ -77,7 +77,7 @@ def main():
 
     running_score = 0
     for e in range(EPOCHS):
-        train_crew = (e + 0) % 2
+        train_crew = (e + 1) % 2
         print_epoch(e, train_crew)
 
         crew.requires_grad_(train_crew)
