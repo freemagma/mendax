@@ -1,0 +1,21 @@
+{
+    "device": "cpu",
+    "B": 64,
+    "N": 16,
+    "H": 256,
+    "M": 20,
+    "ROUNDS": 5,
+    "P": 10,
+    "I": 2,
+    "EPOCHS": 4,
+    "EPOCH_LENGTH": 64,
+    "VIEW_CHANCE": 0.4,
+    "SABOTAGE_CHANCE": 0.7,
+    "TRAIN_CREW_FIRST": false,
+    "TRAIN_SINGLE_CREWMATE": true,
+    "CONST_CREW_COPY_FREQ": 64,
+    "TRAIN_SINGLE_IMPOSTER": true,
+    "CONST_IMPOSTER_COPY_FREQ": 64,
+    "PRINT_FREQ": 64,
+    "SAVE_EPOCH_FREQ": 2
+}

@@ -102,11 +102,10 @@ class Agent:
 
     def save_state(self, fp):
         states = self.states()
-        torch.save(states[0], fp + "_viewer.pt")
-        torch.save(states[1], fp + "_comm.pt")
-        torch.save(states[2], fp + "_vote.pt")
+        torch.save(self.states(), fp + ".pt")
 
     def load_state(self, fp):
-        self.viewer.load_state_dict(torch.load(fp + "_viewer.pt"))
-        self.comm.load_state_dict(torch.load(fp + "_comm.pt"))
-        self.vote.load_state_dict(torch.load(fp + "_vote.pt"))
+        viewer_state, comm_state, vote_state = torch.load(fp + ".pt")
+        self.viewer.load_state_dict(viewer_state)
+        self.comm.load_state_dict(comm_state)
+        self.vote.load_state_dict(vote_state)
