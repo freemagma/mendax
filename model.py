@@ -27,8 +27,9 @@ class Viewer(nn.Module):
 class Communicator(nn.Module):
     def __init__(self, P, H, M):
         super(Communicator, self).__init__()
-        self.fc1 = nn.Linear(H, M)
-        self.fc2 = nn.Linear(M, M)
+        self.fc1 = nn.Linear(H, H // 2)
+        self.fc2 = nn.Linear(H // 2, M * 2)
+        self.fc3 = nn.Linear(M * 2, M)
         self.lstm = nn.LSTM(P * M, H)
 
     def forward(self, messages, hc_t):
@@ -47,20 +48,23 @@ class Communicator(nn.Module):
 
     def get_message(self, h):
         x = torch.relu(self.fc1(h))
-        return torch.tanh(self.fc2(x))
+        x = torch.relu(self.fc2(x))
+        return torch.tanh(self.fc3(x))
 
 
 class Voter(nn.Module):
     def __init__(self, P, H):
         super(Voter, self).__init__()
         self.fc1 = nn.Linear(2 * H, H)
-        self.fc2 = nn.Linear(H, P)
+        self.fc2 = nn.Linear(H, H // 2)
+        self.fc3 = nn.Linear(H // 2, P)
         self.softmax = nn.Softmax(2)
 
     def forward(self, hc_n):
         x = torch.cat(hc_n, dim=2)
         x = torch.relu(self.fc1(x))
-        x = self.fc2(x)
+        x = torch.relu(self.fc2(x))
+        x = self.fc3(x)
         return self.softmax(x)[0]
 
 
@@ -88,6 +92,21 @@ class Agent:
         ]
 
     def copy_state(self, other):
-        self.viewer.load_state_dict(other.viewer.state_dict())
-        self.comm.load_state_dict(other.comm.state_dict())
-        self.vote.load_state_dict(other.vote.state_dict())
+        other_states = other.states()
+        self.viewer.load_state_dict(other_states[0])
+        self.comm.load_state_dict(other_states[1])
+        self.vote.load_state_dict(other_states[2])
+
+    def states(self):
+        return self.viewer.state_dict(), self.comm.state_dict(), self.vote.state_dict()
+
+    def save_state(self, fp):
+        states = self.states()
+        torch.save(states[0], fp + "_viewer.pt")
+        torch.save(states[1], fp + "_comm.pt")
+        torch.save(states[2], fp + "_vote.pt")
+
+    def load_state(self, fp):
+        self.viewer.load_state_dict(torch.load(fp + "_viewer.pt"))
+        self.comm.load_state_dict(torch.load(fp + "_comm.pt"))
+        self.vote.load_state_dict(torch.load(fp + "_vote.pt"))

@@ -97,23 +97,24 @@ def run_batch(device, crew, imposter, crew_const=None, imposter_const=None):
     return torch.mean(imposter_votes.max(1)[0])
 
 
-B = 64
+B = 128
 N = 64
-H = 256
-M = 16
+H = 512
+M = 20
 ROUNDS = 8
 P = 10
 I = 2
 EPOCHS = 10
-EPOCH_LENGTH = 512
+EPOCH_LENGTH = 1024
 VIEW_CHANCE = 0.4
-SABOTAGE_CHANCE = 0.5
+SABOTAGE_CHANCE = 0.7
 TRAIN_CREW_FIRST = False
 TRAIN_SINGLE_CREWMATE = True
 CONST_CREW_COPY_FREQ = 64
 TRAIN_SINGLE_IMPOSTER = True
 CONST_IMPOSTER_COPY_FREQ = 64
 PRINT_FREQ = 64
+SAVE_EPOCH_FREQ = 2
 
 
 def main():
@@ -137,6 +138,7 @@ def main():
     optimizer = [imposter_optim, crew_optim]
 
     running_score = 0
+    HALF_EPOCH_LENGTH = EPOCH_LENGTH // 2
     for e in range(EPOCHS):
         train_crew = (e + TRAIN_CREW_FIRST) % 2
         print_epoch(e, train_crew)
@@ -156,7 +158,7 @@ def main():
             loss = crew_score * (-1 if train_crew else 1)
             if b % PRINT_FREQ == PRINT_FREQ - 1:
                 print(
-                    f"    Batch {str(b + 1).zfill(3)}; Crew Score: {running_score / PRINT_FREQ:.3f}"
+                    f"    Batch {str(b + 1).zfill(4)}; Crew Score: {running_score / PRINT_FREQ:.3f}"
                 )
                 running_score = 0
             loss.backward()
@@ -173,6 +175,10 @@ def main():
                 and b % CONST_IMPOSTER_COPY_FREQ == CONST_IMPOSTER_COPY_FREQ - 1
             ):
                 imposter_const.copy_state(imposter)
+
+        if e % SAVE_EPOCH_FREQ == SAVE_EPOCH_FREQ - 1:
+            crew.save_state(f"saves/e{e}_crew")
+            imposter.save_state(f"saves/e{e}_imposter")
 
         if train_crew and crew_const is not None:
             crew_const.copy_state(crew)
