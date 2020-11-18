@@ -86,3 +86,8 @@ class Agent:
             {"params": self.comm.parameters()},
             {"params": self.vote.parameters()},
         ]
+
+    def copy_state(self, other):
+        self.viewer.load_state_dict(other.viewer.state_dict())
+        self.comm.load_state_dict(other.comm.state_dict())
+        self.vote.load_state_dict(other.vote.state_dict())
