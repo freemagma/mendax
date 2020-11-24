@@ -1,0 +1,66 @@
+┌──────────────────────────────┐
+│ Epoch 0 (Training Imposters) │
+└──────────────────────────────┘
+    Batch 0064; Crew Score: 0.096
+    Batch 0128; Crew Score: 0.083
+    Batch 0192; Crew Score: 0.081
+    Batch 0256; Crew Score: 0.081
+    Batch 0320; Crew Score: 0.080
+    Batch 0384; Crew Score: 0.080
+    Batch 0448; Crew Score: 0.080
+    Batch 0512; Crew Score: 0.084
+┌─────────────────────────┐
+│ Epoch 1 (Training Crew) │
+└─────────────────────────┘
+    Batch 0064; Crew Score: 0.448
+    Batch 0128; Crew Score: 0.738
+    Batch 0192; Crew Score: 0.731
+    Batch 0256; Crew Score: 0.736
+    Batch 0320; Crew Score: 0.736
+    Batch 0384; Crew Score: 0.734
+    Batch 0448; Crew Score: 0.731
+    Batch 0512; Crew Score: 0.732
+┌──────────────────────────────┐
+│ Epoch 2 (Training Imposters) │
+└──────────────────────────────┘
+    Batch 0064; Crew Score: 0.289
+    Batch 0128; Crew Score: 0.039
+    Batch 0192; Crew Score: 0.040
+    Batch 0256; Crew Score: 0.041
+    Batch 0320; Crew Score: 0.041
+    Batch 0384; Crew Score: 0.040
+    Batch 0448; Crew Score: 0.040
+    Batch 0512; Crew Score: 0.042
+┌─────────────────────────┐
+│ Epoch 3 (Training Crew) │
+└─────────────────────────┘
+    Batch 0064; Crew Score: 0.123
+    Batch 0128; Crew Score: 0.202
+    Batch 0192; Crew Score: 0.213
+    Batch 0256; Crew Score: 0.189
+    Batch 0320; Crew Score: 0.200
+    Batch 0384; Crew Score: 0.200
+    Batch 0448; Crew Score: 0.207
+    Batch 0512; Crew Score: 0.206
+┌──────────────────────────────┐
+│ Epoch 4 (Training Imposters) │
+└──────────────────────────────┘
+    Batch 0064; Crew Score: 0.198
+    Batch 0128; Crew Score: 0.202
+    Batch 0192; Crew Score: 0.204
+    Batch 0256; Crew Score: 0.199
+    Batch 0320; Crew Score: 0.206
+    Batch 0384; Crew Score: 0.200
+    Batch 0448; Crew Score: 0.204
+    Batch 0512; Crew Score: 0.201
+┌─────────────────────────┐
+│ Epoch 5 (Training Crew) │
+└─────────────────────────┘
+    Batch 0064; Crew Score: 0.198
+    Batch 0128; Crew Score: 0.208
+    Batch 0192; Crew Score: 0.202
+    Batch 0256; Crew Score: 0.207
+    Batch 0320; Crew Score: 0.197
+    Batch 0384; Crew Score: 0.199
+    Batch 0448; Crew Score: 0.203
+    Batch 0512; Crew Score: 0.190

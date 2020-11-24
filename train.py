@@ -174,27 +174,33 @@ def main():
     param_dict = {
         "device": torch.device("cuda:0" if torch.cuda.is_available() else "cpu"),
         "B": 64,
-        "N": 16,
+        "N": 12,
         "H": 256,
         "M": 20,
         "ROUNDS": 5,
         "P": 10,
         "I": 2,
-        "EPOCHS": 4,
-        "EPOCH_LENGTH": 64,
-        "VIEW_CHANCE": 0.4,
-        "SABOTAGE_CHANCE": 0.7,
+        "EPOCHS": 6,
+        "EPOCH_LENGTH": 512,
+        "VIEW_CHANCE": 0.0,
+        "SABOTAGE_CHANCE": 0.0,
         "TRAIN_CREW_FIRST": False,
         "TRAIN_SINGLE_CREWMATE": True,
-        "CONST_CREW_COPY_FREQ": 64,
+        "CONST_CREW_COPY_FREQ": 32,
         "TRAIN_SINGLE_IMPOSTER": True,
-        "CONST_IMPOSTER_COPY_FREQ": 64,
+        "CONST_IMPOSTER_COPY_FREQ": 32,
         "PRINT_FREQ": 64,
         "SAVE_EPOCH_FREQ": 2,
     }
-    params = TrainParams(**param_dict)
 
-    train(params, save_folder=True)
+    VIEW_GRID = [0.2, 0.4, 0.6, 0.8, 1]
+    SAB_GRID = [0, 0.25, 0.5, 0.75, 1]
+    for v_chance in VIEW_GRID:
+        for s_chance in SAB_GRID:
+            param_dict["VIEW_CHANCE"] = v_chance
+            param_dict["SABOTAGE_CHANCE"] = s_chance
+            params = TrainParams(**param_dict)
+            train(params, save_folder=True, verbose=True)
 
 
 if __name__ == "__main__":
