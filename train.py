@@ -194,7 +194,7 @@ def main():
         "P": 10,
         "I": 2,
         "EPOCHS": 6,
-        "EPOCH_LENGTH": 512,
+        "EPOCH_LENGTH": 1024,
         "VIEW_CHANCE": 0.4,
         "SABOTAGE_CHANCE": 0.0,
         "TRAIN_CREW_FIRST": False,

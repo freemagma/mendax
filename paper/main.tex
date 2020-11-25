@@ -1,0 +1,91 @@
+\documentclass[10pt,twocolumn,letterpaper]{article}
+
+\usepackage{cvpr}
+\usepackage{times}
+\usepackage{epsfig}
+\usepackage{graphicx}
+\usepackage{amsmath}
+\usepackage{amssymb}
+
+% Include other packages here, before hyperref.
+
+% If you comment hyperref and then uncomment it, you should delete
+% egpaper.aux before re-running latex.  (Or just hit 'q' on the first latex
+% run, let it finish, and you should be clear).
+\usepackage[breaklinks=true,bookmarks=false]{hyperref}
+
+\cvprfinalcopy % *** Uncomment this line for the final submission
+
+\def\cvprPaperID{****} % *** Enter the CVPR Paper ID here
+\def\httilde{\mbox{\tt\raisebox{-.5ex}{\symbol{126}}}}
+
+% Pages are numbered in submission mode, and unnumbered in camera-ready
+%\ifcvprfinal\pagestyle{empty}\fi
+\setcounter{page}{4321}
+\begin{document}
+
+%%%%%%%%% TITLE
+\title{Machines are Among Us}
+
+\author{Zach Minot\\
+Georgia Institute of Technology\\
+2nd Year Undergraduate, CS\\
+{\tt\small zjminot@gatech.edu}
+% For a paper whose authors are all at the same institution,
+% omit the following lines up until the closing ``}''.
+% Additional authors and addresses can be added with ``\and'',
+% just like the second author.
+% To save space, use either the email address or home page, not both
+\and
+Charles Gunn\\
+Georgia Institute of Technology\\
+2nd Year Undergraduate, CS \& Math\\
+{\tt\small cgunn30@gatech.edu}
+}
+
+\maketitle
+%\thispagestyle{empty}
+
+%%%%%%%%% ABSTRACT
+\begin{abstract}
+   The ABSTRACT is to be in fully-justified italicized text, at the top
+   of the left-hand column, below the author and affiliation
+   information. Use the word ``Abstract'' as the title, in 12-point
+   Times, boldface type, centered relative to the column, initially
+   capitalized. The abstract is to be in 10-point, single-spaced type.
+   Leave two blank lines after the Abstract, then begin the main text.
+   Look at previous CVPR abstracts to get a feel for style and length.
+\end{abstract}
+
+%%%%%%%%% BODY TEXT
+\section{Introduction}
+\subsection{Adverserial Networks}
+\subsection{Multi-agent Communication}
+
+\section{Approach}
+\subsection{Deductive Situation}
+\subsection{Modeling Interpretation and Communication}
+\subsection{Zero-sum Target}
+\subsection{Training Scheme}
+\subsection{Challenges}
+
+\section{Results}
+% talk about our goal for a qualitatively "good" communication
+% session.
+\subsection{Oscillating Scores}
+% talk about problems we saw frequently. show examples of "good" runs
+% and bad runs
+\subsection{Situation Hyperparameters}
+% grid search results.
+\subsection{Model Evolution}
+% are the agents "improving" or just changing minorly to trick each other
+\subsection{Interpreting Communcation Vectors}
+\subsection{Future Directions}
+
+
+{\small
+\bibliographystyle{ieee_fullname}
+\bibliography{egbib}
+}
+
+\end{document}
