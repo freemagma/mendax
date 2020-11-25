@@ -153,7 +153,7 @@ def train(params, verbose=True, save_dir=None):
             ):
                 imposter_const.copy_state(imposter)
 
-        if save_folder and e % params.SAVE_EPOCH_FREQ == params.SAVE_EPOCH_FREQ - 1:
+        if save_dir and e % params.SAVE_EPOCH_FREQ == params.SAVE_EPOCH_FREQ - 1:
             crew.save_state(os.path.join(save_dir, f"e{e}_crew"))
             imposter.save_state(os.path.join(save_dir, f"e{e}_imposter"))
 
@@ -165,6 +165,22 @@ def train(params, verbose=True, save_dir=None):
 
     if save_dir:
         fs[-1].close()
+
+
+def grid_search(param_dict):
+    grid_dir = os.path.join(
+        "saves", datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S") + "_GRID"
+    )
+
+    VIEW_GRID = [0.2, 0.4, 0.6, 0.8, 1]
+    SAB_GRID = [0, 0.25, 0.5, 0.75, 1]
+    for v_chance in VIEW_GRID:
+        for s_chance in SAB_GRID:
+            param_dict["VIEW_CHANCE"] = v_chance
+            param_dict["SABOTAGE_CHANCE"] = s_chance
+            params = TrainParams(**param_dict)
+            save_dir = os.path.join(grid_dir, f"v{v_chance}_s{s_chance}")
+            train(params, save_dir=save_dir, verbose=True)
 
 
 def main():
@@ -179,7 +195,7 @@ def main():
         "I": 2,
         "EPOCHS": 6,
         "EPOCH_LENGTH": 512,
-        "VIEW_CHANCE": 0.0,
+        "VIEW_CHANCE": 0.4,
         "SABOTAGE_CHANCE": 0.0,
         "TRAIN_CREW_FIRST": False,
         "TRAIN_SINGLE_CREWMATE": True,
@@ -189,20 +205,10 @@ def main():
         "PRINT_FREQ": 64,
         "SAVE_EPOCH_FREQ": 2,
     }
-
-    grid_dir = os.path.join(
-        "saves", datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S") + "_GRID"
-    )
-
-    VIEW_GRID = [0.2, 0.4, 0.6, 0.8, 1]
-    SAB_GRID = [0, 0.25, 0.5, 0.75, 1]
-    for v_chance in VIEW_GRID:
-        for s_chance in SAB_GRID:
-            param_dict["VIEW_CHANCE"] = v_chance
-            param_dict["SABOTAGE_CHANCE"] = s_chance
-            params = TrainParams(**param_dict)
-            save_dir = os.path.join(grid_dir, f"v{v_chance}_s{s_chance}")
-            train(params, save_dir=save_dir, verbose=True)
+    # run the grid search
+    # grid_search(param_dict)
+    # just train once. dont save.
+    train(TrainParams(**param_dict), verbose=True)
 
 
 if __name__ == "__main__":
