@@ -81,7 +81,7 @@ def run_batch(params, crew, imposter, crew_const=None, imposter_const=None):
     return torch.mean(imposter_votes.max(1)[0])
 
 
-def train(params, verbose=True, save_folder=False):
+def train(params, verbose=True, save_dir=None):
 
     imposter = Agent(params.device, params.P, params.H, params.M)
     crew = Agent(params.device, params.P, params.H, params.M)
@@ -100,10 +100,7 @@ def train(params, verbose=True, save_folder=False):
     crew_optim = torch.optim.Adam(crew.parameters())
     optimizer = [imposter_optim, crew_optim]
 
-    save_dir = os.path.join(
-        "saves", datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S")
-    )
-    if save_folder:
+    if save_dir:
         os.makedirs(save_dir)
         with open(os.path.join(save_dir, "params.json"), "w") as f:
             json.dump(params.kwargs, f, indent=4)
@@ -111,7 +108,7 @@ def train(params, verbose=True, save_folder=False):
     fs = []
     if verbose:
         fs.append(sys.stdout)
-    if save_folder:
+    if save_dir:
         fs.append(open(os.path.join(save_dir, "output.txt"), "w"))
 
     running_score = 0
@@ -193,6 +190,10 @@ def main():
         "SAVE_EPOCH_FREQ": 2,
     }
 
+    grid_dir = os.path.join(
+        "saves", datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S") + "_GRID"
+    )
+
     VIEW_GRID = [0.2, 0.4, 0.6, 0.8, 1]
     SAB_GRID = [0, 0.25, 0.5, 0.75, 1]
     for v_chance in VIEW_GRID:
@@ -200,7 +201,8 @@ def main():
             param_dict["VIEW_CHANCE"] = v_chance
             param_dict["SABOTAGE_CHANCE"] = s_chance
             params = TrainParams(**param_dict)
-            train(params, save_folder=True, verbose=True)
+            save_dir = os.path.join(grid_dir, f"v{v_chance}_s{s_chance}")
+            train(params, save_dir=save_dir, verbose=True)
 
 
 if __name__ == "__main__":
