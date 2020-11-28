@@ -46,7 +46,7 @@ Georgia Institute of Technology\\
 \maketitle
 %\thispagestyle{empty}
 
-%%%%%%%%% ABSTRACT
+%%%%%%%%% ABSTRACTcommunicate
 \begin{abstract}
    The ABSTRACT is to be in fully-justified italicized text, at the top
    of the left-hand column, below the author and affiliation
@@ -59,9 +59,50 @@ Georgia Institute of Technology\\
 
 %%%%%%%%% BODY TEXT
 \section{Introduction}
-\subsection{Adverserial Networks}
-\subsection{Multi-agent Communication}
 
+To what extent can neural network models communicate with each other and discover
+each other's identity? How would they use this information in a competitive setting?
+For example, in a social deduction game, players attempt to uncover each other's
+hidden allegiance---typically with one "good" team and one "bad" team.
+Players must utilize deductive reasoning to find the truth or instead
+lie to keep their role hidden. In this paper, we explore 
+if neural networks can be successfully trained to
+compete in a scenario such as this, and how would the opposing parties interact
+during the period of debate.
+
+\subsection{Among Us}
+Among Us is a currently popular social deduction game,
+where the "imposters" attempt to sabotage and kill all of the "crewmates". Crewmmates have
+to complete tasks and figure out who the imposters are and eliminate them before the imposters
+win.
+At certain points in the game, after periods of no direct communication, players 
+debate the roles of each individual based on information previously acquired through
+their personal experience. At the end of this discussion, every player votes on a single
+player to be eliminated. The player with the most votes is eliminated, and if there
+is a tie, no one is voted out. We chose to emulate this game based on
+the overall simplicity of the two roles and the requirement of communication
+for either party to succeed. If the crew do not exchange information 
+and all vote the same person, 
+the vote could result in a tie or a crew being eliminated.
+If the imposters do not bluff, the crew can easily spot the liars among the group. 
+This provides ample room to explore and experiment with the communication between
+the two opposing parties.
+\subsection{Adverserial Networks}
+Within this design space, there are adversarial parties working against each other.
+In the deep learning realm, adversarial situations appear in adversarial examples
+[https://arxiv.org/pdf/1412.6572.pdf] and within GANs (generative adversarial networks)
+[https://proceedings.neurips.cc/paper/2014/hash/5ca3e9b122f61f8f06494c97b1afccf3-Abstract.html].
+In particular, the latter often designs a contest between two neural networks, in the form
+of a zero-sum game.
+We build upon these concepts and foundations in our work.
+\subsection{Multi-agent Communication}
+Inherently, a social deduction game requires multiple agents to be trained and contested.
+This has been explored within the deep learning problem space with multi-agent subproblems.
+Both cooperative [https://arxiv.org/pdf/1602.02672.pdf] [https://arxiv.org/pdf/1605.06676.pdf] 
+and adversarial [https://arxiv.org/pdf/1610.06918.pdf] communication has been experimented with,
+showing that models can effective share and also selectively protect information.
+We reference these approaches we generate active adversarial communication between 
+neural network models.
 \section{Approach}
 \subsection{Deductive Situation}
 \subsection{Modeling Interpretation and Communication}
