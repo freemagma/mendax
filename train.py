@@ -172,8 +172,8 @@ def grid_search(param_dict):
         "saves", datetime.datetime.now().strftime("%Y-%m-%d_%H-%M-%S") + "_GRID"
     )
 
-    VIEW_GRID = [0.2, 0.4, 0.6, 0.8, 1]
-    SAB_GRID = [0, 0.25, 0.5, 0.75, 1]
+    VIEW_GRID = [0.4, 0.6, 0.8]
+    SAB_GRID = [0, 0.25, 0.5, 0.75]
     for v_chance in VIEW_GRID:
         for s_chance in SAB_GRID:
             param_dict["VIEW_CHANCE"] = v_chance
@@ -206,9 +206,9 @@ def main():
         "SAVE_EPOCH_FREQ": 2,
     }
     # run the grid search
-    # grid_search(param_dict)
+    grid_search(param_dict)
     # just train once. dont save.
-    train(TrainParams(**param_dict), verbose=True)
+    # train(TrainParams(**param_dict), verbose=True)
 
 
 if __name__ == "__main__":
