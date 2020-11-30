@@ -59,7 +59,6 @@ Georgia Institute of Technology\\
 
 %%%%%%%%% BODY TEXT
 \section{Introduction}
-
 To what extent can neural network models communicate with each other and discover
 each other's identity? How would they use this information in a competitive setting?
 For example, in a social deduction game, players attempt to uncover each other's
@@ -69,7 +68,6 @@ lie to keep their role hidden. In this paper, we explore
 if neural networks can be successfully trained to
 compete in a scenario such as this, and how would the opposing parties interact
 during the period of debate.
-
 \subsection{Among Us}
 Among Us is a currently popular social deduction game,
 where the "imposters" attempt to sabotage and kill all of the "crewmates". Crewmmates have
@@ -105,6 +103,18 @@ neural network models.
 \section{Approach}
 \subsection{Deductive Situation}
 \subsection{Modeling Interpretation and Communication}
+\begin{figure*}
+   \begin{center}
+      \includegraphics[width=0.8 \textwidth]{img/model.png}
+   \end{center}
+      \caption{Diagram of the Agent model. The red section is the perception LSTM,
+      which takes in a sequence of events. The blue section is the communication
+      LSTM, which recieves messages, and generates messages using the green MLP.
+      Finally, the purple section is the voting MLP, which produces the agent's
+      vote vector.}
+   \label{fig:model}
+   \end{figure*}
+   
 \subsection{Zero-sum Target}
 \subsection{Training Scheme}
 \subsection{Challenges}
