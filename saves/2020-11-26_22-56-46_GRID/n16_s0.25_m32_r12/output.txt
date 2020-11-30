@@ -1,0 +1,114 @@
+┌──────────────────────────────┐
+│ Epoch 0 (Training Imposters) │
+└──────────────────────────────┘
+    Batch 0064; Crew Score: 0.093
+    Batch 0128; Crew Score: 0.082
+    Batch 0192; Crew Score: 0.081
+    Batch 0256; Crew Score: 0.081
+    Batch 0320; Crew Score: 0.080
+    Batch 0384; Crew Score: 0.080
+    Batch 0448; Crew Score: 0.080
+    Batch 0512; Crew Score: 0.080
+    Batch 0576; Crew Score: 0.080
+    Batch 0640; Crew Score: 0.079
+    Batch 0704; Crew Score: 0.079
+    Batch 0768; Crew Score: 0.079
+    Batch 0832; Crew Score: 0.079
+    Batch 0896; Crew Score: 0.079
+    Batch 0960; Crew Score: 0.080
+    Batch 1024; Crew Score: 0.080
+┌─────────────────────────┐
+│ Epoch 1 (Training Crew) │
+└─────────────────────────┘
+    Batch 0064; Crew Score: 0.415
+    Batch 0128; Crew Score: 0.665
+    Batch 0192; Crew Score: 0.788
+    Batch 0256; Crew Score: 0.800
+    Batch 0320; Crew Score: 0.800
+    Batch 0384; Crew Score: 0.800
+    Batch 0448; Crew Score: 0.800
+    Batch 0512; Crew Score: 0.782
+    Batch 0576; Crew Score: 0.786
+    Batch 0640; Crew Score: 0.798
+    Batch 0704; Crew Score: 0.803
+    Batch 0768; Crew Score: 0.793
+    Batch 0832; Crew Score: 0.806
+    Batch 0896; Crew Score: 0.811
+    Batch 0960; Crew Score: 0.819
+    Batch 1024; Crew Score: 0.832
+┌──────────────────────────────┐
+│ Epoch 2 (Training Imposters) │
+└──────────────────────────────┘
+    Batch 0064; Crew Score: 0.755
+    Batch 0128; Crew Score: 0.699
+    Batch 0192; Crew Score: 0.702
+    Batch 0256; Crew Score: 0.698
+    Batch 0320; Crew Score: 0.699
+    Batch 0384; Crew Score: 0.703
+    Batch 0448; Crew Score: 0.695
+    Batch 0512; Crew Score: 0.703
+    Batch 0576; Crew Score: 0.697
+    Batch 0640; Crew Score: 0.692
+    Batch 0704; Crew Score: 0.694
+    Batch 0768; Crew Score: 0.696
+    Batch 0832; Crew Score: 0.700
+    Batch 0896; Crew Score: 0.700
+    Batch 0960; Crew Score: 0.696
+    Batch 1024; Crew Score: 0.703
+┌─────────────────────────┐
+│ Epoch 3 (Training Crew) │
+└─────────────────────────┘
+    Batch 0064; Crew Score: 0.734
+    Batch 0128; Crew Score: 0.685
+    Batch 0192; Crew Score: 0.742
+    Batch 0256; Crew Score: 0.758
+    Batch 0320; Crew Score: 0.774
+    Batch 0384; Crew Score: 0.774
+    Batch 0448; Crew Score: 0.816
+    Batch 0512; Crew Score: 0.815
+    Batch 0576; Crew Score: 0.820
+    Batch 0640; Crew Score: 0.819
+    Batch 0704; Crew Score: 0.816
+    Batch 0768; Crew Score: 0.816
+    Batch 0832; Crew Score: 0.817
+    Batch 0896; Crew Score: 0.819
+    Batch 0960; Crew Score: 0.817
+    Batch 1024; Crew Score: 0.819
+┌──────────────────────────────┐
+│ Epoch 4 (Training Imposters) │
+└──────────────────────────────┘
+    Batch 0064; Crew Score: 0.820
+    Batch 0128; Crew Score: 0.817
+    Batch 0192; Crew Score: 0.822
+    Batch 0256; Crew Score: 0.820
+    Batch 0320; Crew Score: 0.815
+    Batch 0384; Crew Score: 0.816
+    Batch 0448; Crew Score: 0.817
+    Batch 0512; Crew Score: 0.817
+    Batch 0576; Crew Score: 0.815
+    Batch 0640; Crew Score: 0.818
+    Batch 0704; Crew Score: 0.813
+    Batch 0768; Crew Score: 0.815
+    Batch 0832; Crew Score: 0.819
+    Batch 0896; Crew Score: 0.815
+    Batch 0960; Crew Score: 0.817
+    Batch 1024; Crew Score: 0.818
+┌─────────────────────────┐
+│ Epoch 5 (Training Crew) │
+└─────────────────────────┘
+    Batch 0064; Crew Score: 0.812
+    Batch 0128; Crew Score: 0.815
+    Batch 0192; Crew Score: 0.817
+    Batch 0256; Crew Score: 0.812
+    Batch 0320; Crew Score: 0.817
+    Batch 0384; Crew Score: 0.816
+    Batch 0448; Crew Score: 0.817
+    Batch 0512; Crew Score: 0.819
+    Batch 0576; Crew Score: 0.821
+    Batch 0640; Crew Score: 0.814
+    Batch 0704; Crew Score: 0.812
+    Batch 0768; Crew Score: 0.817
+    Batch 0832; Crew Score: 0.818
+    Batch 0896; Crew Score: 0.819
+    Batch 0960; Crew Score: 0.818
+    Batch 1024; Crew Score: 0.818
