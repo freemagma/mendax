@@ -101,7 +101,17 @@ showing that models can effective share and also selectively protect information
 We reference these approaches we generate active adversarial communication between 
 neural network models.
 \section{Approach}
+We deconstructed a standard voting round of Among Us into three stages: 
+communicationless information gain,
+argument and debate, and the final vote. Building off of this, we decided 
+to break our standard player model into a perception stage, 
+communication stage, and voting stage. Each satge feeds into the next until the final
+vote occurs to eliminate one of the models within the communicating group.
 \subsection{Deductive Situation}
+During the period of communication in Among Us, the crew must do tasks
+and gain information while the imposters must sabotage and kill the crew. We decided
+to simplify the game by both removing the tasks and killing and making the entire
+perception of each player predetermined.
 \subsection{Modeling Interpretation and Communication}
 \begin{figure*}
    \begin{center}
@@ -113,11 +123,30 @@ neural network models.
       Finally, the purple section is the voting MLP, which produces the agent's
       vote vector.}
    \label{fig:model}
-   \end{figure*}
+\end{figure*}
    
 \subsection{Zero-sum Target}
+The last stage is the most simple one, voting. The model simple takes the concetnated
+hidden outputs from the communication stage and feeds them through
+multi-layer perceptron layers. This finalizes as a player length probability vector
+of a confidence that a specific player (at that index) should be voted out.
+
+The "crew score" is the sum of all votes of any player for an imposter. The imposter loss
+is the crew score, and the crew loss is the negation.
+Relate back to GANs, zero-sum game so that adversarial works.
 \subsection{Training Scheme}
+There were multiple decisions we had to make when attempting to train the models.
+Imposter/Crew two different models, multitude of different hyperparameters and
+sizes of inputs/outputs.
 \subsection{Challenges}
+The main challenge in building and running the model
+came mainly in the form of training time, gradient overlap, 
+and hyperparameter search.
+
+Another important challenge to recognize is the extreme "black box" architecture
+of the model. With our current model iteration, we have no current approach to visualizing
+exactly what the model is doing, especially with communication. Therefore there are
+assumptions and estimations when creating conclusions about the model.
 
 \section{Results}
 % talk about our goal for a qualitatively "good" communication
