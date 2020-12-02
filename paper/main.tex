@@ -165,8 +165,8 @@ maximum vote-off score that any imposter recieved, where votes
 are averaged across all agents. Clearly, the imposters would like to minimize the
 votes on themselves, so their loss function for training purposes is
 simply the crew score. Inversely, the crew's loss function is the negation of
-the crew score.
-\textbf{Zach: Relate back to GANs, zero-sum game so that adversarial works}
+the crew score. This takes the form of a zero-sum game with similar application
+as in generative adversarial networks.
 \subsection{Training Scheme}
 There were multiple decisions we had to make when attempting to train the models.
 Imposter/Crew two different models, multitude of different hyperparameters and
@@ -174,7 +174,16 @@ sizes of inputs/outputs.
 \subsection{Challenges}
 The main challenge in building and running the model
 came mainly in the form of training time, gradient overlap, 
-and hyperparameter search.
+and hyperparameter search. As discussed previously, to help speed up training time
+and reduce gradient overlap between multiple different models training over the
+same dataset, we had to only train either one imposter or crew, and keep the rest constant.
+This limits the quick adaptivity, and may lead to the models attempting to train
+against the constant tcooperative models ratrher than against the adversarial model.
+
+Furthermore, the immense number of combinations of hyperparameters
+and input and outputs sizes, along with no precedent for recommended values,
+lead us to generalize our model significantly. Although this may seem like an ability for
+customizability, it severely reduces reproducability over small changes. 
 
 Another important challenge to recognize is the extreme "black box" architecture
 of the model. With our current model iteration, we have no current approach to visualizing
@@ -204,7 +213,7 @@ It was observed that the crew could identify the imposters with no prior informa
 believe the crew model had some sort of hidden code or tag to identify themselves.
 
 Finally, similar work in adversarial networks could potentially give rise to
-more techniques utilizing them. GANs are at the forefront of adversarial techniques, but possibly
+more techniques utilizing them. Generative adversarial networks are at the forefront of adversarial techniques, but possibly
 large multi-agent adervasarial communication networks could give heed to more good results.
 {\small
 \bibliographystyle{ieee_fullname}
