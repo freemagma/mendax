@@ -170,6 +170,7 @@ the crew score. This takes the form of a zero-sum game with similar application
 as in generative adversarial networks.
 \subsection{Training Scheme}
 There were multiple decisions we had to make when attempting to train the models.
+The two opposing models were trained
 Imposter/Crew two different models, multitude of different hyperparameters and
 sizes of inputs/outputs.
 \subsection{Challenges}
@@ -209,18 +210,42 @@ $R$.
 \section{Results}
 % talk about our goal for a qualitatively "good" communication
 % session.
-Due to the unpredented architecture, we decided our overall goals
+Due to the unprecedented architecture, we decided our overall goals
 were to find the balance between imposter and crew
 score, locate trends within the variable changes, and attempt to 
-understand how the models communicate, to a degree.
+understand how the models communicate, to a degree. We conducted many
+training sessions over multiple different combinations of variables.
+
+A typical training session started with the first two initial epochs,
+as discussed previously 
+
+Through our search, we found a trend to three different types of results:
+an imposter 'win', a crew 'win', and a convergence.
+An imposter win happens under certain circumstances where the crew are unable
+to employ a better strategy than the crew's equally voting all other candidates.
+A crew win occurs with the opposite---the crew can determine exactly who the imposters
+are, and crew vote for one imposter. A convergence happens to place itself in the middle,
+for what we assume to be a fair, balanced game between the two opposing parties.
+
+Due to resource constraints, we were not able to get as much 
+data as we had hoped for.
+This lead to a consistency issue, where the same variable combination would yield
+different results because of certain randomness within training the models.
 \subsection{Oscillating Scores}
-% talk about problems we saw frequently. show examples of "good" runs
-% and bad runs
+The hopeful goal was to find the set of variables that lead to not only a convergence,
+but an almost "tug-of-war" battle when one model trains against the other and vice versa.
+This is graphically shown via an oscillating crew score around the 
+eventual convergence crew score. This would mean that the two models
+are successfunlly balanced and able to improve their strategy with training time against
+the opposition.
+
+In an attempt to find a training session mathcing this quality
 
 % grid search results.
 \subsection{Model Evolution}
 % are the agents "improving" or just changing minorly to trick each other
 \subsection{Interpreting Communcation Vectors}
+Unfortunately, we could not 
 \subsection{Future Directions}
 This approach is just a start into understanding how neural networks
 communicate with one another. Although assumptions can be made,
