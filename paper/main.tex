@@ -101,17 +101,35 @@ showing that models can effective share and also selectively protect information
 We reference these approaches we generate active adversarial communication between 
 neural network models.
 \section{Approach}
-We deconstructed a standard voting round of Among Us into three stages: 
-communicationless information gain,
-argument and debate, and the final vote. Building off of this, we decided 
-to break our standard player model into a perception stage, 
-communication stage, and voting stage. Each satge feeds into the next until the final
-vote occurs to eliminate one of the models within the communicating group.
+In order to examine the interactions between multiple agents -- some of who are
+secretly imposters who must ``lie'', we chose to construct an ``Among Us''-esque scenario
+for our models to partake in. On a high level, we wanted each agent to 
+first collect information
+independant of the others. Then, there should be some phase of communication between the
+models -- qualitatively, it is during this stage that the agents will attempt to
+deduce who the imposters are, an the imposters will attempt to blend in. Finally, the
+agents all vote on who they think is a likely imposter. The upcoming sections
+explain how we chose to model each of these phases in greater detail.
 \subsection{Deductive Situation}
 During the period of communication in Among Us, the crew must do tasks
 and gain information while the imposters must sabotage and kill the crew. We decided
-to simplify the game by both removing the tasks and killing and making the entire
-perception of each player predetermined.
+to simplify the ``game'' by both removing the tasks and killing and making the entire
+perception of each player predetermined. 
+
+Specifically, each agent is given as input a matrix consisting
+of $N$ events. During each event, the agent ``sees'' some subset of the other players
+(sight is reflexive and symmetric, but not transitive).
+They also may experience a ``sabotage'', which means they are in the prescence
+of an imposter who is sabotaging. They cannot see the imposter, but the imposter
+can see them during this event. Ultimately, each agent will recieve
+a $N \times (P + 1)$ matrix, where $P$ is the total number of players -- the first
+$P$ values of a row indicate who the agent is seeing, and the final value indicates
+a sabotage.
+
+These event matrices are generated randomly using four key parameters: the total number
+of players ($P$), the number of those players who are imposters ($I$), the chance that
+any given pair of players will see one another during an event (view chance), and the 
+chance that any given imposter will sabotage during an  event (sabotage chance).
 \subsection{Modeling Interpretation and Communication}
 \begin{figure*}
    \begin{center}
@@ -124,16 +142,31 @@ perception of each player predetermined.
       vote vector.}
    \label{fig:model}
 \end{figure*}
+In order to process the input events, our agent model has an LSTM, which
+generates $c_N$ and $h_N$, which are used as the initial inputs
+$h_0$ and $c_0$ to the next phase:
+communication. Communcation is also modeled with an LSTM. During each ``round''
+of communication, every agent contributes a message vector of size $M$ via
+a small MLP using $h_t$ as input. These messages are collected into a matrix
+of size $M \times P$, which is fed as input into each agent's LSTM so that
+their memory can be updated before the next round of communication -- there
+are $R$ rounds in total. We chose
+to model communication this way because it is a simple and symmetric way for the agents
+to pass information between each other in multiple rounds.
    
 \subsection{Zero-sum Target}
-The last stage is the most simple one, voting. The model simple takes the concetnated
-hidden outputs from the communication stage and feeds them through
-multi-layer perceptron layers. This finalizes as a player length probability vector
-of a confidence that a specific player (at that index) should be voted out.
+The last stage is the most simple one -- voting. The model simple takes the $h_R$ and
+$c_R$ from the end of the communication LSTM and feeds them through
+a small MLP finalized with a softmax layer. This results in a probability vector
+of a confidence that a specific player should be ``voted out''.
 
-The "crew score" is the sum of all votes of any player for an imposter. The imposter loss
-is the crew score, and the crew loss is the negation.
-Relate back to GANs, zero-sum game so that adversarial works.
+At the end of voting, we calculate a ``crew score''. This score is simply the
+maximum vote-off score that any imposter recieved, where votes
+are averaged across all agents. Clearly, the imposters would like to minimize the
+votes on themselves, so their loss function for training purposes is
+simply the crew score. Inversely, the crew's loss function is the negation of
+the crew score.
+\textbf{Zach: Relate back to GANs, zero-sum game so that adversarial works}
 \subsection{Training Scheme}
 There were multiple decisions we had to make when attempting to train the models.
 Imposter/Crew two different models, multitude of different hyperparameters and

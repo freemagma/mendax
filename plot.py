@@ -83,7 +83,7 @@ def main():
     #     },  # filters (to make the data-points unique)
     # )
 
-    plot_run(os.path.join("2020-11-26_22-56-46_GRID", "n8_s0.75_m32_r4"))
+    plot_run(os.path.join("2020-11-26_22-56-46_GRID", "n8_s0.0_m64_r6"))
 
 
 if __name__ == "__main__":
