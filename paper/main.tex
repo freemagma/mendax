@@ -100,6 +100,17 @@ and adversarial ~\cite{DBLP:journals/corr/AbadiA16} communication has been exper
 showing that models can effective share and also selectively protect information.
 We reference these approaches we generate active adversarial communication between 
 neural network models.
+\begin{figure*}
+   \begin{center}
+      \includegraphics[width=0.8 \textwidth]{img/model.png}
+   \end{center}
+      \caption{Diagram of the Agent model. The red section is the perception LSTM,
+      which takes in a sequence of events. The blue section is the communication
+      LSTM, which recieves messages, and generates messages using the green MLP.
+      Finally, the purple section is the voting MLP, which produces the agent's
+      vote vector.}
+   \label{fig:model}
+\end{figure*}
 \section{Approach}
 In order to examine the interactions between multiple agents -- some of who are
 secretly imposters who must ``lie'', we chose to construct an ``Among Us''-esque scenario
@@ -130,18 +141,8 @@ These event matrices are generated randomly using four key parameters: the total
 of players ($P$), the number of those players who are imposters ($I$), the chance that
 any given pair of players will see one another during an event (view chance), and the 
 chance that any given imposter will sabotage during an  event (sabotage chance).
+
 \subsection{Modeling Interpretation and Communication}
-\begin{figure*}
-   \begin{center}
-      \includegraphics[width=0.8 \textwidth]{img/model.png}
-   \end{center}
-      \caption{Diagram of the Agent model. The red section is the perception LSTM,
-      which takes in a sequence of events. The blue section is the communication
-      LSTM, which recieves messages, and generates messages using the green MLP.
-      Finally, the purple section is the voting MLP, which produces the agent's
-      vote vector.}
-   \label{fig:model}
-\end{figure*}
 In order to process the input events, our agent model has an LSTM, which
 generates $c_N$ and $h_N$, which are used as the initial inputs
 $h_0$ and $c_0$ to the next phase:
@@ -189,14 +190,29 @@ Another important challenge to recognize is the extreme "black box" architecture
 of the model. With our current model iteration, we have no current approach to visualizing
 exactly what the model is doing, especially with communication. Therefore there are
 assumptions and estimations when creating conclusions about the model.
-
+\subsection{Situation Hyperparameters}
+To list the variable hyperparameters and input and outputs sizes for the player model,
+overall, we have batch size, number of epochs, epoch length, the global LSTM hidden layer size, 
+and the amount of players and imposters. For the perception phase, there is the
+chance a player will view another player, the chance a sabotage occurs, and the number of $N$ events.  
+The communication stage has variables the message size $M$ and the number of communication rounds
+$R$.
+\begin{figure*}
+   \begin{center}
+      \includegraphics[width=0.8 \textwidth]{img/grid_search.png}
+   \end{center}
+      \caption{A grid search heat map over the size parameters M (message vector) 
+      and Rounds (the number of communications) displaying the ending Crew score after 6 epochs.
+      }
+   \label{fig:model}
+\end{figure*}
 \section{Results}
 % talk about our goal for a qualitatively "good" communication
 % session.
 \subsection{Oscillating Scores}
 % talk about problems we saw frequently. show examples of "good" runs
 % and bad runs
-\subsection{Situation Hyperparameters}
+
 % grid search results.
 \subsection{Model Evolution}
 % are the agents "improving" or just changing minorly to trick each other
