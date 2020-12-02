@@ -170,9 +170,10 @@ the crew score. This takes the form of a zero-sum game with similar application
 as in generative adversarial networks.
 \subsection{Training Scheme}
 There were multiple decisions we had to make when attempting to train the models.
-The two opposing models were trained
-Imposter/Crew two different models, multitude of different hyperparameters and
-sizes of inputs/outputs.
+Similar to GANs, we decided the best approach to train the two adversarial models was to
+use alternating training to help find eventual convergence and juggle two different
+optimizations.
+
 \subsection{Challenges}
 The main challenge in building and running the model
 came mainly in the form of training time, gradient overlap, 
@@ -180,12 +181,12 @@ and hyperparameter search. As discussed previously, to help speed up training ti
 and reduce gradient overlap between multiple different models training over the
 same dataset, we had to only train either one imposter or crew, and keep the rest constant.
 This limits the quick adaptivity, and may lead to the models attempting to train
-against the constant tcooperative models ratrher than against the adversarial model.
+against the constant cooperative models ratrher than against the adversarial model.
 
 Furthermore, the immense number of combinations of hyperparameters
 and input and outputs sizes, along with no precedent for recommended values,
-lead us to generalize our model significantly. Although this may seem like an ability for
-customizability, it severely reduces reproducability over small changes. 
+lead us to generalize our model significantly. Although this offers the extended ability for
+customizability and exploration, it severely reduces reproducability over small changes. 
 
 Another important challenge to recognize is the extreme "black box" architecture
 of the model. With our current model iteration, we have no current approach to visualizing
@@ -216,8 +217,11 @@ score, locate trends within the variable changes, and attempt to
 understand how the models communicate, to a degree. We conducted many
 training sessions over multiple different combinations of variables.
 
-A typical training session started with the first two initial epochs,
-as discussed previously 
+A typical training session started with the first two alternating epochs,
+which were considered as the "initialization" of the two models. Training the imposters
+first gave them time to learn to note vote for each other. Then, the crew
+had learned the same thing on the next epoch. After this initial training,
+then the models started to significantly train against each other.
 
 Through our search, we found a trend to three different types of results:
 an imposter 'win', a crew 'win', and a convergence.
@@ -231,6 +235,7 @@ Due to resource constraints, we were not able to get as much
 data as we had hoped for.
 This lead to a consistency issue, where the same variable combination would yield
 different results because of certain randomness within training the models.
+
 \subsection{Oscillating Scores}
 The hopeful goal was to find the set of variables that lead to not only a convergence,
 but an almost "tug-of-war" battle when one model trains against the other and vice versa.
@@ -239,13 +244,20 @@ eventual convergence crew score. This would mean that the two models
 are successfunlly balanced and able to improve their strategy with training time against
 the opposition.
 
-In an attempt to find a training session mathcing this quality
-
-% grid search results.
 \subsection{Model Evolution}
 % are the agents "improving" or just changing minorly to trick each other
 \subsection{Interpreting Communcation Vectors}
-Unfortunately, we could not 
+Unfortunately, we could not fully interpret the communication vectors due to the
+disconnect between representation of information. However, we found an 
+interesting result when the players were given no identifying information (e.g. 
+there were no sabotages whatsoever in the percpetion stage), the crew could still
+win the situation. At first glance, this seems almost impossible because the crew would
+be unable to identify the imposters via the necessary events. Further thought lead us
+to make an estimated conclusion that the crew model was actual creating a hidden tag or key
+to identify themselves within the commmunication stage, therefore identifying the imposters 
+immediately. The imposters would then have to train to figure out this key or
+become helpless. This situation resembles almost a cryptographic adversarial problem,
+unlocking more future directions this work could potentially travel.
 \subsection{Future Directions}
 This approach is just a start into understanding how neural networks
 communicate with one another. Although assumptions can be made,
@@ -266,5 +278,52 @@ large multi-agent adervasarial communication networks could give heed to more go
 }
 \appendix
 \section{Reproducibility}
+Reproducibility might yield different results due to the random creation of data and
+weight setting.
+
+The parameters used for Figure 2, the grid search, are:
+
+\begin{tabular}{ |c|c| } 
+\hline 
+"B" & 64 \\
+\hline
+"N" & 16 \\
+\hline
+"H"& 256 \\
+\hline
+"M"& 12 \\
+\hline
+"ROUNDS"& 0 \\
+\hline
+"P"& 10 \\
+\hline
+"I"& 2 \\
+\hline
+"EPOCHS"& 6 \\
+\hline
+"EPOCH LENGTH"& 1024 \\
+\hline
+"VIEW CHANCE"& 0.5 \\
+\hline
+"SABOTAGE CHANCE"& 0.5 \\
+\hline
+"TRAIN CREW FIRST"& false \\
+\hline
+"TRAIN SINGLE CREWMATE"& true \\
+\hline
+"CONST CREW COPY FREQ"& 32 \\
+\hline
+"TRAIN SINGLE IMPOSTER"& true \\
+\hline
+"CONST IMPOSTER COPY FREQ"& 32 \\
+\hline
+"PRINT FREQ"& 64 \\
+\hline
+"SAVE EPOCH FREQ"& 2 \\
+\hline
+\end{tabular}
 \section{Framework}
+The framework we used for our project
+was PyTorch, and build the model based off of their implementation
+of an LSTM and MLP layers. 
 \end{document}
