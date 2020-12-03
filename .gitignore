@@ -2,6 +2,7 @@
 *.pt
 
 # Byte-compiled / optimized / DLL files
+project.zip
 __pycache__/
 .vscode/
 *.py[cod]
