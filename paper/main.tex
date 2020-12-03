@@ -7,35 +7,22 @@
 \usepackage{amsmath}
 \usepackage{amssymb}
 
-% Include other packages here, before hyperref.
-
-% If you comment hyperref and then uncomment it, you should delete
-% egpaper.aux before re-running latex.  (Or just hit 'q' on the first latex
-% run, let it finish, and you should be clear).
 \usepackage[breaklinks=true,bookmarks=false]{hyperref}
 
 \cvprfinalcopy % *** Uncomment this line for the final submission
 
 \def\cvprPaperID{****} % *** Enter the CVPR Paper ID here
 \def\httilde{\mbox{\tt\raisebox{-.5ex}{\symbol{126}}}}
-
-% Pages are numbered in submission mode, and unnumbered in camera-ready
-%\ifcvprfinal\pagestyle{empty}\fi
 \setcounter{page}{1}
 \begin{document}
 
 %%%%%%%%% TITLE
-\title{Machines are Among Us}
+\title{The Machines are Among Us}
 
 \author{Zach Minot\\
 Georgia Institute of Technology\\
 2nd Year Undergraduate, CS\\
 {\tt\small zjminot@gatech.edu}
-% For a paper whose authors are all at the same institution,
-% omit the following lines up until the closing ``}''.
-% Additional authors and addresses can be added with ``\and'',
-% just like the second author.
-% To save space, use either the email address or home page, not both
 \and
 Charles Gunn\\
 Georgia Institute of Technology\\
@@ -48,13 +35,14 @@ Georgia Institute of Technology\\
 
 %%%%%%%%% ABSTRACTcommunicate
 \begin{abstract}
-   The ABSTRACT is to be in fully-justified italicized text, at the top
-   of the left-hand column, below the author and affiliation
-   information. Use the word ``Abstract'' as the title, in 12-point
-   Times, boldface type, centered relative to the column, initially
-   capitalized. The abstract is to be in 10-point, single-spaced type.
-   Leave two blank lines after the Abstract, then begin the main text.
-   Look at previous CVPR abstracts to get a feel for style and length.
+   In this paper, we explore techniques for training sets of deep adversarial neural networks
+   to communicate with each other. In order to investigate this, we took inspiration
+   from the game Among Us to develop a scenario in which multiple agents could
+   communicate and compete with each other. By running a variety of tests spanning
+   many conditions for the sets of networks, we learn that communication between
+   these networks is volatile, and that often simply the process of developing a
+   common ``language'' of communication between multiple networks poses
+   challenges.
 \end{abstract}
 
 %%%%%%%%% BODY TEXT
