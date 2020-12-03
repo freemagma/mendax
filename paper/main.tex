@@ -154,6 +154,8 @@ their memory can be updated before the next round of communication -- there
 are $R$ rounds in total. We chose
 to model communication this way because it is a simple and symmetric way for the agents
 to pass information between each other in multiple rounds.
+Figure \ref{fig:model} shows a simplified diagram of the complete
+architecture.
    
 \subsection{Zero-sum Target}
 The last stage is the most simple one -- voting. The model simple takes the $h_R$ and
@@ -204,13 +206,11 @@ $R$.
       \includegraphics[width=0.8 \textwidth]{img/grid_search.png}
    \end{center}
       \caption{A grid search heat map over the size parameters M (message vector) 
-      and Rounds (the number of communications) displaying the ending Crew score after 6 epochs.
+      and Rounds (the number of communications) displaying the ending Crew score after 6 epochs. Figure \ref{tab:params} contains the other parameters used.
       }
-   \label{fig:model}
+   \label{fig:grid}
 \end{figure*}
 \section{Results}
-% talk about our goal for a qualitatively "good" communication
-% session.
 Due to the unprecedented architecture, we decided our overall goals
 were to find the balance between imposter and crew
 score, locate trends within the variable changes, and attempt to 
@@ -219,7 +219,7 @@ training sessions over multiple different combinations of variables.
 
 A typical training session started with the first two alternating epochs,
 which were considered as the "initialization" of the two models. Training the imposters
-first gave them time to learn to note vote for each other. Then, the crew
+first gave them time to learn to not vote for each other. Then, the crew
 had learned the same thing on the next epoch. After this initial training,
 then the models started to significantly train against each other.
 
@@ -242,12 +242,20 @@ but an almost "tug-of-war" battle when one model trains against the other and vi
 This is graphically shown via an oscillating crew score around the 
 eventual convergence crew score. This would mean that the two models
 are successfunlly balanced and able to improve their strategy with training time against
-the opposition.
+the opposition. Figure \ref{fig:osc} shows an example of a single run which converges
+to a crew score of around 0.6.
+\begin{figure}[h]
+   \begin{center}
+      \includegraphics[width=0.47827\textwidth]{img/m16_r10.png}
+   \end{center}
+   
+   \label{fig:osc}
+   \caption{Crew score over time for a particular training run. The crew model is
+   being trained in odd epochs, and imposters in even epochs.}
+\end{figure}
 
-\subsection{Model Evolution}
-% are the agents "improving" or just changing minorly to trick each other
 \subsection{Interpreting Communcation Vectors}
-Unfortunately, we could not fully interpret the communication vectors due to the
+Unfortunately, we were not able to interpret the communication vectors due to the
 disconnect between representation of information. However, we found an 
 interesting result when the players were given no identifying information (e.g. 
 there were no sabotages whatsoever in the percpetion stage), the crew could still
@@ -278,11 +286,15 @@ large multi-agent adervasarial communication networks could give heed to more go
 }
 \appendix
 \section{Reproducibility}
-Reproducibility might yield different results due to the random creation of data and
-weight setting.
+The code that we used to train, test, and plot graphics for the models
+is in a public GitHub repository at \url{https://github.com/quinquice/mendax}.
+Note that due to random data generation and unpredictable training, it may be
+difficult to reproduce the exact graphs we have in this paper, but similar results
+should be attainable.
 
-The parameters used for Figure 2, the grid search, are:
 
+\begin{figure}
+   \centering
 \begin{tabular}{ |c|c| } 
 \hline 
 "B" & 64 \\
@@ -290,10 +302,6 @@ The parameters used for Figure 2, the grid search, are:
 "N" & 16 \\
 \hline
 "H"& 256 \\
-\hline
-"M"& 12 \\
-\hline
-"ROUNDS"& 0 \\
 \hline
 "P"& 10 \\
 \hline
@@ -317,13 +325,15 @@ The parameters used for Figure 2, the grid search, are:
 \hline
 "CONST IMPOSTER COPY FREQ"& 32 \\
 \hline
-"PRINT FREQ"& 64 \\
-\hline
-"SAVE EPOCH FREQ"& 2 \\
-\hline
 \end{tabular}
+\caption{The parameters used for Figure \ref{fig:grid}, the grid search}
+\label{tab:params}
+\end{figure}
+
 \section{Framework}
 The framework we used for our project
 was PyTorch, and build the model based off of their implementation
-of an LSTM and MLP layers. 
+of an LSTM and MLP layers. Models were trained on a variety of different
+computers, sometimes with CPU and sometimes with GPU.
+
 \end{document}
